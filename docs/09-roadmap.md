@@ -24,6 +24,16 @@
 - [ ] Sub-skor MOMENTUM & SMART_MONEY masuk keputusan Jalur Momentum secara formal
 - [ ] `learn.py` menghasilkan usul bobot mingguan + backtest otomatis
 
+## Fase 2B — Rantai komando multi-agent (SELESAI di repo, 6 Nov 2026)
+
+- [x] Hierarki agent-memerintah-agent: Bos → Komandan → 7 agen spesialis (`docs/10`)
+- [x] Matriks wewenang tertulis di `src/config/agents.json` (siapa boleh memerintah siapa)
+- [x] Protokol perintah: format perintah, TTL, idempotency, rantai persetujuan, veto mutlak Auditor, eskalasi, kill switch (`docs/11`)
+- [x] Implementasi acuan stdlib: `src/commander.py` (bus perintah + Komandan) & `src/agents.py` — demo putaran + 5 uji serangan protokol lolos (perintah tak sah/kedaluwarsa/ganda/melewati veto semuanya ditolak bus)
+- [x] Eksekutor dry-run di repo: intent tercatat & bisa diaudit, tanpa menyentuh uang
+- [ ] Mode shadow di operasi live: Komandan mencatat perintah yang *akan* diterbitkan berdampingan dengan putaran sniper berjalan (±2 minggu perbandingan) — butuh perintah Bos
+- [ ] Adopsi live bertahap: rantai komando mengambil alih orkestrasi putaran, pagar SOP tidak berubah
+
 ## Fase 3 — Jala lebih lebar
 
 - [ ] Watchlist wallet smart money khusus (dompet ESTABLISHED dengan riwayat pump bagus)

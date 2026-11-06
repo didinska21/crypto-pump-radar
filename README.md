@@ -9,6 +9,15 @@ dilabeli hasilnya (pump / rug / datar), lalu dipakai untuk mempertajam skor.
 Semakin banyak data yang diolah, semakin pintar sistem membedakan
 "koin mau terbang" dari "koin mau rug".
 
+Sejak v2, otaknya bekerja sebagai **sistem multi-agent: agent memerintah
+agent**. Satu **Komandan** memerintah tujuh agen spesialis (Scout, Auditor,
+Analis, Eksekutor, Pengamat, Pelajar, Pelapor) lewat bus perintah yang
+memeriksa setiap perintah — penerbit sah, belum kedaluwarsa, tidak ganda,
+rantai persetujuan lengkap. Auditor memegang **veto mutlak** atas gate
+keamanan; Eksekutor hanya bergerak atas perintah sah Komandan.
+Rinciannya: `docs/10-sistem-multi-agent.md` + `docs/11-protokol-perintah.md`,
+implementasinya `src/commander.py` + `src/agents.py`.
+
 ---
 
 ## Cara sistem ini belajar (inti repo)
@@ -54,8 +63,8 @@ Pelajaran awal dari data itu sudah dituangkan di `knowledge/lessons-learned.md`.
 
 | Folder | Isi |
 |---|---|
-| `docs/` | Metodologi lengkap: filosofi early-entry, sumber sinyal, gate, model skor, kamus fitur, pipeline data, learning loop, manajemen risiko, roadmap |
-| `src/` | Kode olah data yang bisa jalan: `ingest.py`, `features.py`, `scoring.py`, `label_outcomes.py`, `learn.py` + `config/weights.json` |
+| `docs/` | Metodologi lengkap: filosofi early-entry, sumber sinyal, gate, model skor, kamus fitur, pipeline data, learning loop, manajemen risiko, roadmap, **sistem multi-agent (10)** dan **protokol perintah (11)** |
+| `src/` | Kode yang bisa jalan: `ingest.py`, `features.py`, `scoring.py`, `label_outcomes.py`, `learn.py` + **rantai komando `commander.py` & `agents.py`** + `config/weights.json` & `config/agents.json` |
 | `data/` | Skema dataset + template CSV (data mentah live tetap di mesin operasi, bukan di repo) |
 | `knowledge/` | Otak yang tumbuh: pattern library (pola pump vs pola rug), lessons learned, peta narasi, glosarium |
 | `research/` | Template riset 1 koin — cara meneliti kandidat manual sebelum masuk watchlist |
@@ -73,6 +82,7 @@ Pelajaran awal dari data itu sudah dituangkan di `knowledge/lessons-learned.md`.
 ```bash
 cd src
 python3 scoring.py --demo          # nilai 2 contoh sinyal dengan bobot aktif
+python3 commander.py --demo        # satu putaran rantai komando + uji protokol perintah
 python3 label_outcomes.py --help   # labeli sinyal lama dari data harga
 python3 learn.py --help            # olah outcomes -> statistik pola + usul bobot
 ```
@@ -84,4 +94,5 @@ bisa dilacak di git history.
 ---
 
 *Dibangun 6 Nov 2026 sebagai proyek riset pendamping operasi Sniper BSC.
-Repo privat — berisi strategi, bukan untuk publik.*
+Repo publik — berisi strategi riset; data live, kunci, dan kredensial
+tidak pernah masuk repo.*
