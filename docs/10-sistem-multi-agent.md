@@ -99,6 +99,17 @@ melewati Auditor. Format perintah dan aturan sah/tidaknya dirinci di
   kandidat sehat mengalir sampai intent eksekusi; kandidat jebakan mati
   di veto Auditor; perintah dari penerbit tak sah, perintah kedaluwarsa,
   dan perintah ganda semuanya ditolak bus.
+- Mode shadow REPLAY terimplementasi (6 Nov 2026): `src/shadow.py` memutar
+  ulang seluruh `signals.csv` produksi (489 baris) lewat rantai Komandan
+  secara read-only — hasil di `data/live/shadow_log.jsonl`. Vonis: 473 veto
+  Auditor dari nilai fitur terpulihkan, 14 veto data tak terverifikasi,
+  1 veto catatan produksi di luar model repo, 1 lolos gate tanpa intent,
+  0 intent — sepakat 100% dengan produksi, TAPI angka itu struktural:
+  file produksi 100% REJECT dan fitur momentum/smart-money tidak pernah
+  tersimpan di `signals.csv` (kelengkapan nilai pasti rata-rata hanya
+  25,3% dari 17 fitur), sehingga skor bayangan mentok di 50 dan jalur
+  intent tidak pernah terjangkau. Agar shadow bisa menilai jalur skor,
+  screener live perlu mencatat snapshot fitur penuh per sinyal.
 - Berikutnya (butuh perintah Bos): mode shadow di operasi live — Komandan
   mencatat perintah yang *akan* ia terbitkan berdampingan dengan putaran
   sniper yang berjalan, dibandingkan selama ±2 minggu sebelum rantai

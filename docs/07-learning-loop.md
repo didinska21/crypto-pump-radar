@@ -55,3 +55,17 @@ naik jadi pola. Pola yang terbukti memprediksi = masuk bobot skor.
 - **Harian** — heartbeat operasi: berapa discan, Tier A, ditolak, alasan terbanyak.
 - **Mingguan** — `learn.py` jalan, statistik pola diperbarui, usul bobot di-review.
 - **Bulanan** — evaluasi metrik kepintaran; roadmap & peta narasi diperbarui.
+
+## Implementasi pelabelan (sejak 6 Nov 2026)
+
+Langkah 3 loop di atas dijalankan `src/label.py`: membaca
+`signals.csv` operasi, menjemput OHLCV jam-an GeckoTerminal per pool,
+dan memberi label tiap horizon yang sudah jatuh tempo (1j/6j/24j/7h)
+memakai vonis `label_outcomes.py`. Hasil persisten di
+`data/live/labels.csv` (idempoten — jalan ulang hanya mengisi horizon
+yang kurang). Harga awal diambil dari candle yang memuat waktu sinyal
+karena `signals.csv` live belum mencatat harga deteksi; likuiditas
+historis tidak tersedia dari API publik, jadi kriteria likuiditas
+label tidak terisi dari jalur ini — pool tanpa candle sesudah sinyal
+dilabeli RUG (`note=no_candles_after_signal`). Cadence yang masuk akal:
+tiap jam (menangkap jendela 1j/6j tepat waktu) — lihat `docs/09` Fase 1.
