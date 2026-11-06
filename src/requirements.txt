@@ -1,0 +1,1 @@
+# Tidak ada dependensi pihak ketiga — Python 3.10+ stdlib saja.
